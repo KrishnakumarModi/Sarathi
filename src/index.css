@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 33% 98%;
+    --foreground: 235 35% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 244 31% 95%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 20% 96%;
+    --muted-foreground: 235 12% 45%;
+    --accent: 174 72% 35%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 20% 91%;
+    --input: 240 20% 89%;
+    --ring: 262 83% 58%;
+    --radius: 0.875rem;
+
+    --chart-1: 262 83% 58%;
+    --chart-2: 160 84% 39%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 199 89% 48%;
+    --chart-5: 340 75% 55%;
+  }
+
+  .dark {
+    --background: 240 23% 7%;
+    --foreground: 0 0% 98%;
+    --card: 240 20% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 262 83% 68%;
+    --primary-foreground: 240 10% 3.9%;
+    --secondary: 240 15% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 15% 16%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 160 84% 45%;
+    --accent-foreground: 240 10% 3.9%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 14% 19%;
+    --input: 240 14% 19%;
+    --ring: 262 83% 68%;
+
+    --chart-1: 262 83% 68%;
+    --chart-2: 160 84% 45%;
+    --chart-3: 38 92% 55%;
+    --chart-4: 199 89% 55%;
+    --chart-5: 340 75% 62%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    background-image: radial-gradient(circle at 78% -8%, hsl(var(--primary) / 0.1), transparent 30rem);
+  }
+
+  /* Long scrollable lists skip offscreen work (00_GLOBAL_RULES.md §13.6). */
+  .content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 120px;
+  }
+}
+
+@layer components {
+  .app-shell {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.28) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.28) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+
+  .surface-card {
+    @apply border-border/80 shadow-[0_8px_30px_hsl(240_20%_20%/0.05)] transition-all duration-300;
+  }
+
+  .surface-card:hover {
+    @apply -translate-y-0.5 border-primary/20 shadow-[0_14px_34px_hsl(252_80%_45%/0.1)];
+  }
+
+  .page-enter {
+    animation: page-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-glow {
+    background: radial-gradient(circle at 68% 36%, hsl(var(--primary) / 0.22), transparent 35%),
+      linear-gradient(115deg, hsl(247 70% 22%), hsl(258 73% 35%) 50%, hsl(202 76% 35%));
+  }
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .page-enter,
+  .surface-card {
+    animation: none !important;
+    transform: none !important;
+  }
+}
