@@ -1,6 +1,6 @@
-# AI Career OS
+# Sarathi
 
-AI Career OS is a career operating system for AI/ML roles. The active runtime is a split stack:
+Sarathi is a career operating system for AI/ML roles. The active runtime is a split stack:
 
 - `frontend/`: React 19 + Vite single-page application
 - `backend/`: FastAPI + PostgreSQL + Redis API
