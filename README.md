@@ -1,4 +1,4 @@
-# AI Career OS — frontend
+#SARATHI
 
 React 19 + Vite + TypeScript + Tailwind + shadcn/ui, talking to the FastAPI
 backend over HTTP.
