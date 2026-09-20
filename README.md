@@ -49,3 +49,15 @@ npm run dev
 
 - Domain icon colours from `domains.json` (like `text-violet-500`) don't render, because Tailwind never sees those class names. Fix: safelist them in the Tailwind config.
 - `CardTitle` renders a `<div>` instead of a heading. Changing it to `<h3>` would improve accessibility but changes the markup.
+
+# Contributions:
+
+# Aryan Prajapti 
+managed AI/ML and Testing IN project--
+
+# Krishna Kumar Modi
+managed backend-frontend and deployment--
+
+# Krishan Kumar
+mananged UI , frontend and other tasks--
+
