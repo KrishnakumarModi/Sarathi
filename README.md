@@ -43,9 +43,13 @@ npm run dev
 # How it works
 
 <strong>1.Role Selection</strong>
+
 <strong>2.Modules</strong>
+
 <strong>3.Stats</strong>
+
 <strong>4.Completion</strong>
+
 <strong>5.Revision</strong>
 
 # Conclusion
@@ -54,7 +58,7 @@ With our Sarathi user can easily find tech related subjects IN one place..
 
 
 # Team Members
-<strong>TEAM NAME:ACE CODERS</strong>
+<strong>Team Name : ACE CODERS</strong>
 
 <strong>Aryan Prajapti</strong>-  managed AI/ML and Testing IN project
 
