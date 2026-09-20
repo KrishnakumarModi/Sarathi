@@ -64,4 +64,4 @@ With our Sarathi user can easily find tech related subjects IN one place..
 
 <strong>Krishna Kumar Modi</strong>- Implemented APIs on the website, handled backend ,Test and merge branch.
 
-<strong>Krishan Kumar</strong>- Managed frontend development using HTML and CSS, UI and assisted in testing and AI/ML.
+<strong>Krishan Kumar</strong>- Managed frontend development using TailwindCSS, UI and assisted in testing and AI/ML.
