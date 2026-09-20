@@ -9,6 +9,7 @@
 import type { RetentionHealth } from './revision-strategy'
 
 export interface DueRevision {
+  id: string           // RevisionItem.id (used to generate quiz)
   unitId: string
   unitName: string
   unitDescription: string | null
@@ -19,8 +20,19 @@ export interface DueRevision {
   domainName: string | null
 }
 
+export interface UpcomingRevision {
+  id: string           // RevisionItem.id (used to generate quiz early)
+  unitId: string
+  unitName: string
+  nextReviewDate: string
+  intervalDays: number
+  domainName: string | null
+  daysUntilDue: number
+}
+
 export interface RevisionView {
   due: DueRevision[]
+  upcoming: UpcomingRevision[]
   upcomingCount: number
   totalTracked: number
   retentionHealth: RetentionHealth

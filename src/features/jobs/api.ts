@@ -52,3 +52,19 @@ export async function analyzeJobDescription(input: {
     api.post<MatchResult & { skillNames: Record<string, string> }>('/applications/analyze', input)
   )
 }
+
+export interface AIAnalysisResponse {
+  job_id: string
+  extracted_skills: string[]
+  resume_tips: string[]
+  quality_score: number
+  red_flags: string[]
+  semantic_match_percentage: number
+  is_fallback: boolean
+}
+
+export async function aiAnalyzeJob(jobId: string): Promise<ActionResult<AIAnalysisResponse>> {
+  return toActionResult(() =>
+    api.post<AIAnalysisResponse>(`/applications/${jobId}/ai-analyze`)
+  )
+}

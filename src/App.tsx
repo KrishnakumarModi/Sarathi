@@ -1,13 +1,15 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { AppProviders } from '@/components/providers/app-providers'
 import { RootErrorBoundary } from '@/components/shared/root-error-boundary'
 import { Skeleton } from '@/components/ui/skeleton'
 import { hasSession } from '@/lib/token-store'
+import { restoreSession } from '@/lib/api-client'
 import { AuthLayout, DashboardLayout, GuestOnly, RequireOnboarding } from '@/routes/layouts'
 import { LoginPage, SignupPage } from '@/routes/auth'
 import NotFoundPage from '@/routes/not-found'
+import LandingPage from '@/routes/landing'
 
 // Route-level code splitting: the login screen must not pull in Recharts,
 // the curriculum tree, or the project tracker.
@@ -48,6 +50,12 @@ function RouteFallback() {
 }
 
 export default function App() {
+  const [restoring, setRestoring] = useState(true)
+  useEffect(() => {
+    void restoreSession().finally(() => setRestoring(false))
+  }, [])
+  if (restoring) return <RouteFallback />
+
   return (
     <RootErrorBoundary>
       <AppProviders>
@@ -55,7 +63,7 @@ export default function App() {
           <Routes>
             <Route
               path="/"
-              element={<Navigate to={hasSession() ? '/dashboard' : '/login'} replace />}
+              element={hasSession() ? <Navigate to="/dashboard" replace /> : <LandingPage />}
             />
 
             <Route element={<GuestOnly />}>

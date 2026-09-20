@@ -15,7 +15,7 @@
  */
 
 import type { ActionResult } from '@/types/global'
-import { clearTokens, getAccessToken, getRefreshToken, setTokens } from './token-store'
+import { clearTokens, getAccessToken, setTokens } from './token-store'
 
 const BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? '/api/v1'
 
@@ -46,14 +46,11 @@ async function refreshSession(): Promise<boolean> {
   if (refreshInFlight) return refreshInFlight
 
   refreshInFlight = (async () => {
-    const refreshToken = getRefreshToken()
-    if (!refreshToken) return false
     try {
       const response = await fetch(`${BASE_URL}/auth/refresh`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ refresh_token: refreshToken }),
       })
       if (!response.ok) {
         clearTokens()
@@ -61,10 +58,9 @@ async function refreshSession(): Promise<boolean> {
       }
       const data = (await response.json()) as {
         access_token: string
-        refresh_token: string
         expires_in: number
       }
-      setTokens(data.access_token, data.refresh_token, data.expires_in)
+      setTokens(data.access_token, data.expires_in)
       return true
     } catch {
       return false
@@ -74,6 +70,11 @@ async function refreshSession(): Promise<boolean> {
   })()
 
   return refreshInFlight
+}
+
+/** Restore the in-memory token from the HttpOnly refresh cookie on reload. */
+export async function restoreSession(): Promise<boolean> {
+  return refreshSession()
 }
 
 async function parseError(response: Response): Promise<ApiError> {

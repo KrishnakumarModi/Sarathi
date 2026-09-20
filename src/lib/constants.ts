@@ -1,6 +1,6 @@
 /** App-wide constants. No magic numbers in feature code. */
 
-export const APP_NAME = 'AI Career OS'
+export const APP_NAME = 'Sarathi'
 
 // ---------------------------------------------------------------- mastery
 export const MAX_MASTERY_SCORE = 100

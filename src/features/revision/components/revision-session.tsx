@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import type { DueRevision } from '../lib/revision-queries'
-import { FlashCard } from './flash-card'
+import { AIQuiz } from './ai-quiz'
 
 export function RevisionSession({ items }: { items: DueRevision[] }) {
   const router = useRouter()
@@ -42,12 +42,11 @@ export function RevisionSession({ items }: { items: DueRevision[] }) {
         className="mx-auto max-w-2xl"
         aria-label="Session progress"
       />
-      <FlashCard
+      <AIQuiz
         key={items[index].unitId}
         item={items[index]}
-        index={index}
-        total={items.length}
         onComplete={() => setIndex((current) => current + 1)}
+        onCancel={() => setIndex((current) => current + 1)}
       />
     </div>
   )

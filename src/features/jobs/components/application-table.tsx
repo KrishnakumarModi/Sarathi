@@ -10,6 +10,7 @@ import { toast } from '@/components/ui/use-toast'
 import type { ApplicationStatus, JobApplicationRow } from '@/types/database.types'
 import { updateApplicationStatus } from '../api'
 import { APPLICATION_STATUS_ORDER, ApplicationStatusBadge, STATUS_LABELS } from './status-badge'
+import { AIAnalysisTab } from './ai-analysis-tab'
 
 const ALL = 'all'
 
@@ -93,7 +94,10 @@ export function ApplicationTable({ applications }: { applications: JobApplicatio
               </div>
               <ApplicationStatusBadge status={application.status} />
             </div>
-            <StatusSelect application={application} />
+            <div className="flex items-start justify-between gap-2 mt-2">
+              <StatusSelect application={application} />
+              <AIAnalysisTab jobId={application.id} company={application.company} role={application.role_title} />
+            </div>
           </div>
         ))}
       </div>
@@ -109,6 +113,7 @@ export function ApplicationTable({ applications }: { applications: JobApplicatio
               <TableHead>Applied</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Link</TableHead>
+              <TableHead className="text-right">Analysis</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -137,6 +142,9 @@ export function ApplicationTable({ applications }: { applications: JobApplicatio
                   ) : (
                     '—'
                   )}
+                </TableCell>
+                <TableCell className="text-right">
+                  <AIAnalysisTab jobId={application.id} company={application.company} role={application.role_title} />
                 </TableCell>
               </TableRow>
             ))}

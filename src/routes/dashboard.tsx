@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -18,20 +19,33 @@ import { RoleReadinessSection } from '@/features/dashboard/components/role-readi
 import { WeeklyHoursChart } from '@/features/dashboard/components/weekly-hours-chart'
 import { fetchDashboard } from '@/features/dashboard/api'
 import { formatHours, formatMinutes } from '@/lib/utils'
+import { XPBar } from '@/features/gamification/components/xp-bar'
 import { DashboardSkeleton } from './skeletons/dashboard'
 
 // Three tables at most, as the sync budget requires.
 const REALTIME_TABLES = ['task_completions', 'daily_tasks', 'skill_mastery']
 
-function greeting(): string {
-  const hour = new Date().getHours()
-  if (hour < 12) return 'Good morning'
-  if (hour < 18) return 'Good afternoon'
-  return 'Good evening'
+function greeting(date: Date): string {
+  const hour = date.getHours()
+  if (hour < 12) return 'Good Morning'
+  if (hour < 18) return 'Good Afternoon'
+  return 'Good Evening'
+}
+
+function useGreeting(): string {
+  const [now, setNow] = useState(() => new Date())
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(new Date()), 60_000)
+    return () => window.clearInterval(interval)
+  }, [])
+
+  return greeting(now)
 }
 
 export default function DashboardPage() {
   useDocumentTitle('Dashboard')
+  const greetingMessage = useGreeting()
   const query = useQuery({
     queryKey: ['dashboard'],
     queryFn: ({ signal }) => fetchDashboard(signal),
@@ -75,7 +89,7 @@ export default function DashboardPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
                   Your learning cockpit
                 </p>
-                <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{`${greeting()}, ${name}`}</h1>
+                <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{`${greetingMessage}, ${name}`}</h1>
                 <p className="mt-2 max-w-md text-sm leading-6 text-white/80">
                   {data.today.hasPlan
                     ? `${data.today.completed} of ${data.today.planned} tasks done today · ${formatMinutes(data.today.remainingMinutes)} left`
@@ -87,6 +101,8 @@ export default function DashboardPage() {
                 </div>
               </div>
             </section>
+
+            <XPBar />
 
             <NextActionCard action={data.nextAction} />
 

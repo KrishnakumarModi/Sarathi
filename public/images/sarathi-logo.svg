@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F0F4F8"/></radialGradient>
+    <linearGradient id="owlBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#6D28D9"/></linearGradient>
+    <linearGradient id="owlBellyGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#EDE9FE"/><stop offset="100%" stop-color="#C4B5FD"/></linearGradient>
+    <linearGradient id="bookCoverGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient>
+    <linearGradient id="bookPageGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#FFFBEB"/><stop offset="100%" stop-color="#FDE68A"/></linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#1E1B4B" flood-opacity="0.12"/></filter>
+    <filter id="glowEffect" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect x="50" y="50" width="400" height="500" rx="60" fill="url(#bgGrad)" filter="url(#softShadow)"/>
+  <rect x="55" y="55" width="390" height="490" rx="55" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  <ellipse cx="250" cy="395" rx="80" ry="12" fill="#F59E0B" opacity="0"><animate attributeName="opacity" values="0;0;0.25;0.25" dur="2.5s" begin="0.3s" fill="freeze" keyTimes="0;0.3;0.7;1"/></ellipse>
+  <g><animateTransform attributeName="transform" type="translate" values="0 0;0 -6;0 0" dur="3s" repeatCount="indefinite"/>
+    <path d="M250 160C190 160 170 220 170 280s30 90 80 90 80-30 80-90-20-120-80-120Z" fill="url(#owlBodyGrad)"/>
+    <path d="M250 200c-40 0-55 40-55 80 0 50 25 80 55 80s55-30 55-80c0-40-15-80-55-80Z" fill="url(#owlBellyGrad)"/>
+    <path d="m210 165-20-30 30 15m70 15 20-30-30 15" fill="#F59E0B"/>
+    <circle cx="220" cy="235" r="26" fill="#fff"/><circle cx="280" cy="235" r="26" fill="#fff"/>
+    <g transform-origin="220 235"><animateTransform attributeName="transform" type="scale" values="1;1.1;1;1" dur="2.5s" repeatCount="indefinite" keyTimes="0;0.4;0.8;1"/><circle cx="220" cy="235" r="14" fill="#1E1B4B"/><circle cx="216" cy="231" r="4" fill="#fff"/></g>
+    <g transform-origin="280 235"><animateTransform attributeName="transform" type="scale" values="1;1.1;1;1" dur="2.5s" repeatCount="indefinite" keyTimes="0;0.4;0.8;1"/><circle cx="280" cy="235" r="14" fill="#1E1B4B"/><circle cx="276" cy="231" r="4" fill="#fff"/></g>
+    <path d="m245 255 10 0-5 20Z" fill="#F59E0B"/>
+    <g><animateTransform attributeName="transform" type="translate" values="0 0;0 -35;0 0" dur="2s" begin="0.3s" fill="freeze" keyTimes="0;0.5;1"/><path d="m200 170 50-30 50 30-50 20Z" fill="#F59E0B"/><circle cx="250" cy="140" r="5" fill="#1E1B4B"/><g><animateTransform attributeName="transform" type="rotate" values="-6 250 140;6 250 140;-6 250 140" dur="2.5s" repeatCount="indefinite"/><path d="M250 140q35 5 45 45" fill="none" stroke="#1E1B4B" stroke-width="4" stroke-linecap="round"/><path d="m290 185 10 13-5 5Z" fill="#6D28D9"/></g></g>
+  </g>
+  <g transform="translate(250 370)"><g><animateTransform attributeName="transform" type="scale" values="0 1;1 1;1 1" dur="2.5s" begin="0.3s" fill="freeze" keyTimes="0;0.8;1"/><path d="M-90-20c30-17 60-17 88 0v40c-28-17-58-17-88 0Z" fill="url(#bookCoverGrad)"/><path d="M-85-15c25-17 55-17 81 0v30c-26-17-56-17-81 0Z" fill="url(#bookPageGrad)"/></g><g><animateTransform attributeName="transform" type="scale" values="0 1;1 1;1 1" dur="2.5s" begin="0.3s" fill="freeze" keyTimes="0;0.8;1"/><path d="M90-20C60-37 30-37 2-20v40c28-17 58-17 88 0Z" fill="url(#bookCoverGrad)"/><path d="M85-15C60-32 30-32 4-15v30c26-17 56-17 81 0Z" fill="url(#bookPageGrad)"/></g><line x1="0" y1="-20" x2="0" y2="20" stroke="#D97706" stroke-width="3"/><circle cx="0" cy="-15" r="3" fill="#F59E0B" filter="url(#glowEffect)"/></g>
+  <text x="250" y="460" font-family="Montserrat,Arial Black,system-ui,sans-serif" font-weight="900" font-size="52" fill="#1E1B4B" text-anchor="middle" letter-spacing="2">SARATHI</text>
+  <text x="250" y="500" font-family="Montserrat,Arial,system-ui,sans-serif" font-weight="700" font-size="14" fill="#6D28D9" text-anchor="middle" letter-spacing="2">YOUR LEARNING COMPANION</text>
+  <line x1="180" y1="520" x2="320" y2="520" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

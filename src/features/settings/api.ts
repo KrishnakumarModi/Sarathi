@@ -18,7 +18,6 @@ import type { LoginInput, SettingsInput, SignupInput } from './validators'
 
 interface SessionResponse {
   access_token: string
-  refresh_token: string
   expires_in: number
   user: { id: string; email: string; display_name: string | null }
   confirmation_required?: boolean
@@ -47,7 +46,7 @@ export interface OnboardingContext {
 }
 
 function storeSession(session: SessionResponse): void {
-  setTokens(session.access_token, session.refresh_token, session.expires_in)
+  setTokens(session.access_token, session.expires_in)
 }
 
 export async function login(input: LoginInput): Promise<ActionResult<CurrentUser>> {
@@ -73,7 +72,7 @@ export async function signup(
 
 export async function logout(): Promise<void> {
   try {
-    await api.post('/auth/logout', { refresh_token: localStorage.getItem('ai_career_os.refresh') })
+    await api.post('/auth/logout')
   } catch {
     // A failed logout must still clear the client: the refresh token expires
     // on its own, and leaving the user "signed in" locally is worse.

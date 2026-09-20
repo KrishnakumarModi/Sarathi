@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useDocumentTitle } from '@/components/shared/document-title'
 import { PageHeader } from '@/components/shared/page-header'
 import { QueryBoundary } from '@/components/shared/query-boundary'
-import { ThemeToggle } from '@/components/shared/theme-toggle'
 import { SettingsForm } from '@/features/settings/components/settings-form'
 import { fetchSettings } from '@/features/settings/api'
 import { ApiError } from '@/lib/api-client'
@@ -32,7 +31,6 @@ export default function SettingsPage() {
           <PageHeader
             title="Settings"
             description="Your availability drives the planner. Keep it honest and the plan stays useful."
-            action={<ThemeToggle />}
           />
 
           <SettingsForm profile={profile} settings={settings} />

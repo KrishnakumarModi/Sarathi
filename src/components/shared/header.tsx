@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { usePathname } from '@/hooks/use-navigation'
-import { Menu, Sparkles } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { APP_NAME } from '@/lib/constants'
@@ -30,7 +30,7 @@ export function Header({ displayName, email }: HeaderProps) {
         </SheetTrigger>
         <SheetContent side="left" className="p-0">
           <div className="flex h-14 items-center gap-2 border-b px-5">
-            <Sparkles className="h-5 w-5 text-primary" aria-hidden />
+            <img src="/images/sarathi-logo.svg" alt="" className="h-8 w-7 object-cover object-top" />
             <SheetTitle className="text-sm font-semibold">{APP_NAME}</SheetTitle>
           </div>
           <SidebarNav onNavigate={() => setOpen(false)} />

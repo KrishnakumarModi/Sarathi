@@ -27,6 +27,7 @@ export default function CurriculumDomainPage() {
 
   const rawDifficulty = searchParams.get('difficulty')
   const difficulty = rawDifficulty === null ? undefined : Number(rawDifficulty)
+  const moduleId = searchParams.get('module') ?? undefined
 
   return (
     <QueryBoundary
@@ -52,6 +53,7 @@ export default function CurriculumDomainPage() {
           <CurriculumTree
             domain={domain}
             unitNames={unitNames}
+            initialOpenModuleId={moduleId}
             filters={{
               difficulty: Number.isFinite(difficulty) ? difficulty : undefined,
               status: searchParams.get('status') ?? undefined,

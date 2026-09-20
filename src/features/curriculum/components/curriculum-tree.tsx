@@ -16,6 +16,7 @@ import { progressColor } from '@/lib/utils'
 interface CurriculumTreeProps {
   domain: DomainTree
   unitNames: Record<string, string>
+  initialOpenModuleId?: string
   filters: { difficulty?: number; status?: string; search?: string }
 }
 
@@ -43,7 +44,12 @@ function averageMastery(units: UnitWithProgress[]): number {
   return Math.round(units.reduce((sum, u) => sum + u.masteryScore, 0) / units.length)
 }
 
-export function CurriculumTree({ domain, unitNames, filters }: CurriculumTreeProps) {
+export function CurriculumTree({
+  domain,
+  unitNames,
+  initialOpenModuleId,
+  filters,
+}: CurriculumTreeProps) {
   const filtered = useMemo(() => {
     return domain.modules
       .map((module) => ({
@@ -64,7 +70,11 @@ export function CurriculumTree({ domain, unitNames, filters }: CurriculumTreePro
   }, [domain, filters])
 
   const [openModules, setOpenModules] = useState<string[]>(() =>
-    filtered.length > 0 ? [filtered[0].id] : []
+    initialOpenModuleId && filtered.some((module) => module.id === initialOpenModuleId)
+      ? [initialOpenModuleId]
+      : filtered.length > 0
+        ? [filtered[0].id]
+        : []
   )
 
   if (filtered.length === 0) {

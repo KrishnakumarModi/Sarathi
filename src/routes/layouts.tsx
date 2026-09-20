@@ -1,6 +1,8 @@
-import { Sparkles } from 'lucide-react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { Home } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 
 import { Header } from '@/components/shared/header'
 import { MobileNav } from '@/components/shared/mobile-nav'
@@ -26,10 +28,16 @@ export function AuthLayout() {
   return (
     <main
       id="main-content"
-      className="flex min-h-screen flex-col items-center justify-center gap-6 px-4 py-10"
+      className="relative flex min-h-screen flex-col items-center justify-center gap-6 px-4 py-10"
     >
-      <div className="flex items-center gap-2">
-        <Sparkles className="h-6 w-6 text-primary" aria-hidden />
+      <Button variant="ghost" asChild className="absolute left-4 top-4 md:left-8 md:top-8">
+        <Link to="/">
+          <Home className="mr-2 h-4 w-4" />
+          Home
+        </Link>
+      </Button>
+      <div className="flex flex-col items-center gap-2">
+        <img src="/images/sarathi-logo.svg" alt="Sarathi" className="h-28 w-24 object-cover object-top" />
         <span className="text-lg font-semibold tracking-tight">{APP_NAME}</span>
       </div>
       <div className="w-full max-w-sm">

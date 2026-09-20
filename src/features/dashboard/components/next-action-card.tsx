@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Compass } from 'lucide-react'
-import { ALL_NAV_ITEMS } from '@/components/shared/nav-items'
+import {
+  ArrowRight,
+  BookOpen,
+  Briefcase,
+  CalendarDays,
+  Compass,
+  RefreshCw,
+  Target,
+  type LucideIcon,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -8,23 +16,33 @@ interface NextActionCardProps {
   action: { label: string; detail: string; href: string } | null
 }
 
+const actionIcons: Record<string, LucideIcon> = {
+  '/curriculum': BookOpen,
+  '/revision': RefreshCw,
+  '/roles': Briefcase,
+  '/skills': Target,
+  '/today': CalendarDays,
+}
+
+function getActionIcon(href: string): LucideIcon {
+  const matchingPath = Object.keys(actionIcons).find(
+    (path) => href === path || href.startsWith(`${path}/`)
+  )
+  return matchingPath ? actionIcons[matchingPath] : Compass
+}
+
 /** The dashboard's answer to "what matters most next". */
 export function NextActionCard({ action }: NextActionCardProps) {
   if (!action) return null
 
-  // Actions can point at a nested route (for example, a DSA pattern), so use
-  // the longest matching navigation path to retain the parent section's icon.
-  const destination = ALL_NAV_ITEMS
-    .filter((item) => action.href.startsWith(item.href))
-    .sort((a, b) => b.href.length - a.href.length)[0]
-  const DestinationIcon = destination?.icon ?? Compass
+  const ActionIcon = getActionIcon(action.href)
 
   return (
     <Card className="overflow-hidden border-primary/25 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
       <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
           <div className="flex min-w-0 flex-1 items-start gap-3">
             <div className="rounded-xl bg-primary p-2 text-primary-foreground shadow-lg shadow-primary/25">
-              <DestinationIcon className="h-4 w-4" aria-hidden />
+            <ActionIcon className="h-4 w-4" aria-hidden />
             </div>
           <div className="min-w-0">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
