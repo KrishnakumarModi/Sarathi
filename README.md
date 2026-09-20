@@ -56,8 +56,8 @@ With our Sarathi user can easily find tech related subjects IN one place..
 # TEAM NAME:ACE CODERS
 ### Team Members
 
-# Aryan Prajapti- <managed AI/ML and Testing IN project-->
+<strong>Aryan Prajapti</strong>- < managed AI/ML and Testing IN project-->
 
-# Krishna Kumar Modi- <Implemented backend-frontend and deployment-->
+<strong>Krishna Kumar Modi</strong>- < Implemented backend-frontend and deployment-->
 
-# Krishan Kumar- <UI , frontend and other tasks-->
+<strong>Krishan Kumar</strong>-< UI , frontend and other tasks-->
