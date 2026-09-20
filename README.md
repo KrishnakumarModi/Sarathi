@@ -26,8 +26,6 @@ cp .env.example .env
 npm run dev
 ```
 
-Open http://localhost:5173. The backend needs to be running first (see `../backend/README.md`). In development, Vite proxies `/api` to `localhost:8000`.
-
 ## Scripts
 
 | Command | What it does |
