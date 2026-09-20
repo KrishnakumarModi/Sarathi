@@ -1,112 +1,120 @@
-# Sarathi Frontend
+# AI Career OS — frontend
 
-Sarathi is a learning and career-planning companion for building skills,
-evidence, and momentum toward the next role. This directory contains the
-React single-page application. It communicates with the FastAPI backend over
-HTTP and is designed to run alongside the backend in the repository's active
-split-stack setup.
+React 19 + Vite + TypeScript + Tailwind + shadcn/ui, talking to the FastAPI
+backend over HTTP.
 
-## What is included
+**The design did not change.** `src/components/ui/` is byte-identical to the
+Next.js build, `src/index.css` is the same `globals.css`, and
+`tailwind.config.ts` carries the same tokens — violet `262 83% 58%`, teal
+accent, `0.875rem` radius, the five chart colours, the `app-shell` grid, the
+`hero-glow`, `surface-card`, and `page-enter` treatments. Every page renders
+the same JSX it did before; what changed is where the data comes from.
 
-The authenticated application provides:
+---
 
-- onboarding and a personalized dashboard
-- daily planning, roadmap, curriculum, and spaced revision workflows
-- skill tracking, computer science, DSA, and aptitude practice
-- projects, job applications, interviews, roles, and readiness signals
-- analytics, settings, theme switching, and responsive navigation
-
-Unauthenticated visitors can view the landing page, log in, or create an
-account. Protected pages redirect to login, and users who have not completed
-onboarding are redirected to `/onboarding`.
-
-## Tech stack
-
-- React 19 and TypeScript
-- Vite 6 with route-level code splitting
-- React Router for navigation and route guards
-- TanStack Query for server state and cache invalidation
-- Tailwind CSS and Radix UI primitives
-- Recharts for dashboard and analytics visualizations
-- Vitest for unit tests and Playwright for end-to-end tests
-
-## Prerequisites
-
-- Node.js 20 or newer
-- npm
-- The FastAPI backend running on port `8000` for data-backed workflows
-
-The backend setup and database requirements are documented in
-`../backend/README.md` when working from the full repository.
-
-## Local development
-
-Install dependencies and start the Vite development server:
+## Running it
 
 ```bash
 npm install
-npm run dev
+cp .env.example .env     # the default proxies /api to localhost:8000
+npm run dev              # http://localhost:5173
 ```
 
-Open <http://localhost:5173>. By default, requests beginning with `/api` are
-proxied to `http://localhost:8000`, keeping the browser same-origin during
-development.
-
-### Environment variables
-
-No environment file is required for the default local setup. To use a
-different backend, create a local `.env` file:
-
-```dotenv
-VITE_PROXY_TARGET=http://localhost:8000
-VITE_API_BASE_URL=/api/v1
-```
-
-`VITE_PROXY_TARGET` controls Vite's development proxy. `VITE_API_BASE_URL`
-controls the URL used by the browser API client and defaults to `/api/v1`.
-Do not commit local `.env` files.
-
-## Commands
+The backend must be running (see `../backend/README.md`). Vite proxies
+`/api` to it in development, so the browser stays same-origin and cookies
+behave exactly as they will in production.
 
 ```bash
-npm run dev          # Start the development server
-npm run build        # Type-check and create the production bundle in dist/
-npm run preview      # Serve the production bundle locally
-npm run type-check   # Run the TypeScript compiler without emitting files
-npm run lint         # Lint TypeScript and TSX source files
-npm run test         # Run unit tests once
-npm run test:watch   # Run unit tests in watch mode
-npm run test:e2e     # Run Playwright tests
+npm run build         # type-check, then bundle to dist/
+npm run preview       # serve the bundle
+npm run test          # unit tests
+npm run test:e2e      # Playwright, against a running backend + frontend
+npm run type-check
 ```
 
-End-to-end tests require both the backend and frontend to be running. They
-exercise real authentication and onboarding flows, so use a test backend or
-an isolated development database.
+---
 
-## Project structure
+## How the Next.js pieces were replaced
 
-```text
-src/
-  components/   Shared layout components and UI primitives
-  features/     Feature-specific pages, API functions, and calculations
-  hooks/        Reusable React hooks
-  lib/          API client, constants, query client, and token storage
-  routes/       Route pages and authentication/onboarding layouts
-  stores/       Small client-side stores
-  types/        Shared TypeScript and API types
-tests/
-  unit/         Vitest tests for client-side logic
-  e2e/          Playwright browser tests
-public/         Static assets such as the Sarathi logo
-```
+| Next.js | Here |
+|---|---|
+| Server Component fetching in the page | TanStack Query calling the API |
+| Server Action | `features/*/api.ts` — same function names, same arguments, same `ActionResult` return |
+| `revalidatePath` | `refreshData()` invalidates the query cache after a mutation |
+| `loading.tsx` | `<QueryBoundary skeleton={...}>` renders the same skeletons |
+| `error.tsx` | `<QueryBoundary>` for data, `<RootErrorBoundary>` for render errors |
+| `middleware.ts` auth gate | `<DashboardLayout>` and `<RequireOnboarding>` route guards |
+| `next/link` | `react-router-dom` `<Link to>` |
+| `next/navigation` | `hooks/use-navigation.ts` — `usePathname`, `useRouter`, `useSearchParams` with the same shapes |
+| `next/image` | `<img>` |
+| `next/font` | Inter from Google Fonts, preconnected in `index.html` |
+| `metadata` export | `useDocumentTitle()`, same `Page · AI Career OS` template |
+| `dynamic()` for Recharts | `React.lazy` + `Suspense`, same intent |
+| Supabase Realtime | `<RealtimeSync>` — see below |
 
-## API and session behavior
+Keeping the Server Action names and signatures is why the feature components
+barely changed: `updateTaskStatus`, `recordReview`, `completeOnboarding` and
+the rest still return `{ success: true, data }` or `{ error, fieldErrors }`,
+so every `if ('error' in result)` branch and every inline field message
+still works.
 
-The API client sends requests to `/api/v1` by default, includes the access
-token when available, and sends cookies with requests. When an authenticated
-request receives a `401`, it attempts one refresh using the stored refresh
-token before clearing the session and returning the user to login.
+### Realtime became polling
 
-Access tokens are kept in memory. The refresh token is stored in
-`localStorage`, and the backend remains responsible for token rotation,
-revocation, authorization, and business rules.
+The Supabase build held a WebSocket per page and called `router.refresh()`
+on change. There is no equivalent in a REST backend, so `<RealtimeSync>`
+keeps the same promise — what you see reflects what is stored — by
+refetching every 30 seconds while the tab is visible, on window focus, and
+after every mutation. The reads are cheap because the backend serves these
+view models from Redis.
+
+This is the one behavioural difference a user could notice: a change made in
+another tab appears within about 30 seconds rather than instantly. If
+instant matters later, the backend can grow an SSE endpoint and
+`<RealtimeSync>` can subscribe to it without touching any page.
+
+### Where the business rules went
+
+They live in the backend now. The frontend keeps only the presentation-side
+calculations it actually renders with — CS topic completeness for the
+progress bars, DSA solved/unsolved for the problem filter — plus the copy
+and weights the UI labels things with. Everything scored (priority,
+capacity, mastery, readiness, JD matching) is computed server-side and
+arrives already explained, which is what stops the two runtimes drifting
+apart.
+
+Files such as `features/roles/lib/readiness-calculator.ts` are therefore now
+type and copy contracts rather than implementations, and each says so.
+
+---
+
+## Session handling
+
+`lib/token-store.ts` keeps the access token in memory and only the refresh
+token in `localStorage`. `lib/api-client.ts` attaches the access token,
+and on a 401 refreshes once and retries — with a single in-flight refresh
+shared across concurrent requests, so a page that fires eight queries does
+not trigger eight refreshes. The backend rotates and revokes refresh tokens,
+which is what limits the blast radius of the stored copy.
+
+---
+
+## Inherited issues
+
+Two things were already true of the Next.js build and were deliberately
+left alone rather than silently changed:
+
+- **`domains.json` colour classes never render.** The seed data names
+  Tailwind classes like `text-violet-500`, but those strings appear only in
+  data, so Tailwind's scanner never generates them. Domain icons inherit
+  the surrounding colour. Fixing it means safelisting those classes — a
+  visible change, so it is your call.
+- **`CardTitle` renders a `<div>`, not a heading.** Three e2e assertions
+  were written expecting `getByRole('heading')` and were adjusted to match
+  the real DOM. Making it an `<h3>` would improve the document outline at
+  the cost of changing rendered markup.
+
+One change was necessary rather than optional: `DomainIcon` now maps icon
+names explicitly instead of doing `import * as Icons from 'lucide-react'`.
+Next rewrites those namespace imports per icon; a plain bundler cannot, and
+the whole ~770 kB library landed in the initial chunk. Rendering is
+identical, including the `BookOpen` fallback.

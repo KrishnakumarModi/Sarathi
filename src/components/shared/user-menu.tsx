@@ -28,7 +28,7 @@ export function UserMenu({ displayName, email }: UserMenuProps) {
   async function handleSignOut() {
     setSigningOut(true)
     await logout()
-    router.push('/login')
+    router.replace('/')
   }
 
   return (

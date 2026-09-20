@@ -27,8 +27,8 @@ export function XPBar() {
           <span className="text-sm text-muted-foreground">{profile.xp} / {nextLevelXP} XP</span>
         </div>
         <div className="w-full bg-secondary rounded-full h-2.5">
-          <div 
-            className="bg-primary h-2.5 rounded-full transition-all duration-500 ease-out" 
+          <div
+            className="bg-primary h-2.5 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progressPercent}%` }}
           />
         </div>

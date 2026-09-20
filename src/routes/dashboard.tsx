@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -24,32 +25,27 @@ import { DashboardSkeleton } from './skeletons/dashboard'
 // Three tables at most, as the sync budget requires.
 const REALTIME_TABLES = ['task_completions', 'daily_tasks', 'skill_mastery']
 
-import { useState, useEffect } from 'react'
-
-function useGreeting(): string {
-  const [greeting, setGreeting] = useState(() => getGreetingText())
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGreeting(getGreetingText())
-    }, 60000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return greeting
+function greeting(date: Date): string {
+  const hour = date.getHours()
+  if (hour < 12) return 'Good Morning'
+  if (hour < 18) return 'Good Afternoon'
+  return 'Good Evening'
 }
 
-function getGreetingText(): string {
-  const hour = new Date().getHours()
-  if (hour < 12) return 'Good morning'
-  if (hour < 17) return 'Good afternoon'
-  if (hour < 21) return 'Good evening'
-  return 'Good night'
+function useGreeting(): string {
+  const [now, setNow] = useState(() => new Date())
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(new Date()), 60_000)
+    return () => window.clearInterval(interval)
+  }, [])
+
+  return greeting(now)
 }
 
 export default function DashboardPage() {
   useDocumentTitle('Dashboard')
-  const greetingText = useGreeting()
+  const greetingMessage = useGreeting()
   const query = useQuery({
     queryKey: ['dashboard'],
     queryFn: ({ signal }) => fetchDashboard(signal),
@@ -61,7 +57,7 @@ export default function DashboardPage() {
         if (!data.profile || data.profile.onboarding_status !== 'complete') {
           return (
             <div className="space-y-6">
-              <PageHeader title={greetingText} />
+              <PageHeader title="Welcome" />
               <EmptyState
                 icon={Rocket}
                 title="Let's get you set up"
@@ -93,7 +89,7 @@ export default function DashboardPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
                   Your learning cockpit
                 </p>
-                <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{`${greetingText}, ${name}`}</h1>
+                <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{`${greetingMessage}, ${name}`}</h1>
                 <p className="mt-2 max-w-md text-sm leading-6 text-white/80">
                   {data.today.hasPlan
                     ? `${data.today.completed} of ${data.today.planned} tasks done today · ${formatMinutes(data.today.remainingMinutes)} left`

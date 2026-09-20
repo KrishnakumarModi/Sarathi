@@ -94,7 +94,7 @@ export function AIQuiz({ item, onComplete, onCancel }: AIQuizProps) {
               AI-Powered Quiz
             </div>
             <p className="text-xs text-muted-foreground">
-              Gemini will generate 2 multiple-choice and 1 short-answer question 
+              Gemini will generate 2 multiple-choice and 1 short-answer question
               tailored to your repetition count ({item.repetitionCount} reviews so far).
             </p>
           </div>

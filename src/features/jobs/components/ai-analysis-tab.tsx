@@ -22,10 +22,8 @@ export function AIAnalysisTab({ jobId, company, role }: { jobId: string, company
         toast.error('Could not analyse', response.error)
         return
       }
-      if (response && response.data) {
+      if (response.data) {
         setResult(response.data)
-      } else {
-        setResult(null)
       }
     })
   }
@@ -68,7 +66,7 @@ export function AIAnalysisTab({ jobId, company, role }: { jobId: string, company
                   <span>AI service is currently unavailable. Displaying basic keyword matching results.</span>
                 </div>
               )}
-              
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <Card>
                   <CardHeader className="pb-2">
