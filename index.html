@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" suppressHydrationWarning>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0b" />
+    <meta
+      name="description"
+      content="Sarathi is your learning companion for building skills, evidence, and momentum toward your next role."
+    />
+    <title>Sarathi | Your learning companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply the stored theme before first paint so a dark-mode reload never
+      // flashes white. next-themes does the same thing in its own script.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          var resolved = !stored || stored === 'system' ? system : stored
+          document.documentElement.classList.toggle('dark', resolved === 'dark')
+          document.documentElement.style.colorScheme = resolved
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body class="font-sans antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+    >
+      Skip to content
+    </a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
