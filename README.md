@@ -42,22 +42,22 @@ npm run dev
 
 # How it works
 
-1.Role Selection
-2.Modules
-3.Stats
-4.Completion
-5.Revision
+<strong>1.Role Selection</strong>
+<strong>2.Modules</strong>
+<strong>3.Stats</strong>
+<strong>4.Completion</strong>
+<strong>5.Revision</strong>
 
 # Conclusion
 With our Sarathi user can easily find tech related subjects IN one place..
 
 
 
-# TEAM NAME:ACE CODERS
-### Team Members
+# Team Members
+<strong>TEAM NAME:ACE CODERS</strong>
 
-<strong>Aryan Prajapti</strong>- < managed AI/ML and Testing IN project-->
+<strong>Aryan Prajapti</strong>-  managed AI/ML and Testing IN project
 
-<strong>Krishna Kumar Modi</strong>- < Implemented backend-frontend and deployment-->
+<strong>Krishna Kumar Modi</strong>- Implemented APIs on the website, handled backend and conducted testing
 
-<strong>Krishan Kumar</strong>-< UI , frontend and other tasks-->
+<strong>Krishan Kumar</strong>- Managed frontend development using HTML and CSS, UI and assisted in testing and AI/ML
