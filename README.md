@@ -1,6 +1,8 @@
 # Sarathi
 
-A career prep app. Track DSA, CS topics, roles and progress in one place.
+# Project Overview
+
+Our sarathi App is designed help users to find the tech related subjects like DSA, OS, Computer network, System Design and can easily select and work on their specific role to increase knowledge and experience .
 
 ## Tech stack
 
@@ -37,27 +39,27 @@ npm run dev
 | `npm run test:e2e` | Run Playwright tests (needs frontend and backend running) |
 | `npm run type-check` | TypeScript check only |
 
+
 ## How it works
 
-**Business logic is on the backend.** Priority, capacity, mastery, readiness and JD matching are all calculated by the API. The frontend only does display calculations, like progress bars and the DSA solved/unsolved filter.
+1.Role Selection
+2.Modules
+3.Stats
+4.Completion
+5.Revision
 
-**Auth.** The access token is kept in memory and the refresh token in `localStorage`. On a 401, the API client refreshes once and retries the request. Concurrent requests share a single refresh. The backend rotates and revokes refresh tokens.
+# conclusion
+##
+With our Sarathi user can easily find tech related subjects IN one place..
 
-**Live updates.** Data is refetched every 30 seconds while the tab is visible, on window focus, and after every change. A change made in another tab can take up to 30 seconds to show. Redis keeps these reads fast.
 
-## Known issues
 
-- Domain icon colours from `domains.json` (like `text-violet-500`) don't render, because Tailwind never sees those class names. Fix: safelist them in the Tailwind config.
-- `CardTitle` renders a `<div>` instead of a heading. Changing it to `<h3>` would improve accessibility but changes the markup.
+# TEAM NAME:ACE CODERS
 
-# Contributions:
+### Team Members
 
-# Aryan Prajapti 
-managed AI/ML and Testing IN project--
+Aryan Prajapti <managed AI/ML and Testing IN project-->
 
-# Krishna Kumar Modi
-managed backend-frontend and deployment--
+Krishna Kumar Modi <Implemented backend-frontend and deployment-->
 
-# Krishan Kumar
-mananged UI , frontend and other tasks--
-
+Krishan Kumar <UI , frontend and other tasks-->
