@@ -1,120 +1,98 @@
-# AI Career OS — frontend
+# Sarathi
 
-React 19 + Vite + TypeScript + Tailwind + shadcn/ui, talking to the FastAPI
-backend over HTTP.
+> A focused career companion for planning, practising, and tracking progress toward AI/ML roles.
 
-**The design did not change.** `src/components/ui/` is byte-identical to the
-Next.js build, `src/index.css` is the same `globals.css`, and
-`tailwind.config.ts` carries the same tokens — violet `262 83% 58%`, teal
-accent, `0.875rem` radius, the five chart colours, the `app-shell` grid, the
-`hero-glow`, `surface-card`, and `page-enter` treatments. Every page renders
-the same JSX it did before; what changed is where the data comes from.
+Sarathi brings a learner's roadmap, daily plan, revision schedule, skills, projects,
+and job-search activity into one calm, structured workspace. The frontend is a React
+single-page application powered by a FastAPI backend.
 
----
+## Highlights
 
-## Running it
+- **Personal roadmap** — organise curriculum topics, skills, DSA, CS fundamentals,
+  aptitude, and interview preparation.
+- **Daily momentum** — plan focused work, track completion, and maintain a revision
+  rhythm.
+- **Career readiness** — record projects, explore target roles, analyse job
+  applications, and prepare for interviews.
+- **Progress at a glance** — use dashboards, analytics, mastery signals, and XP to
+  understand where to focus next.
+
+## Tech stack
+
+| Area | Tools |
+| --- | --- |
+| UI | React 19, TypeScript, Vite |
+| Styling | Tailwind CSS, shadcn/ui, Radix UI |
+| Data | TanStack Query |
+| Routing | React Router |
+| Charts | Recharts |
+| API | FastAPI over `/api` |
+
+## Quick start
+
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+- A running Sarathi backend (defaults to `http://localhost:8000`)
 
 ```bash
 npm install
-cp .env.example .env     # the default proxies /api to localhost:8000
-npm run dev              # http://localhost:5173
+npm run dev
 ```
 
-The backend must be running (see `../backend/README.md`). Vite proxies
-`/api` to it in development, so the browser stays same-origin and cookies
-behave exactly as they will in production.
+Open [http://localhost:5173](http://localhost:5173).
+
+The development server proxies `/api` requests to `http://localhost:8000`. To point
+at another backend, start Vite with `VITE_PROXY_TARGET` set to its URL:
 
 ```bash
-npm run build         # type-check, then bundle to dist/
-npm run preview       # serve the bundle
-npm run test          # unit tests
-npm run test:e2e      # Playwright, against a running backend + frontend
-npm run type-check
+VITE_PROXY_TARGET=http://localhost:8000 npm run dev
 ```
 
----
+## Available scripts
 
-## How the Next.js pieces were replaced
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite development server. |
+| `npm run build` | Type-check and create a production build in `dist/`. |
+| `npm run preview` | Preview the production build locally. |
+| `npm run lint` | Lint TypeScript and React source files. |
+| `npm run type-check` | Run TypeScript without emitting files. |
+| `npm run test` | Run the Vitest unit test suite. |
+| `npm run test:e2e` | Run Playwright end-to-end tests. |
 
-| Next.js | Here |
-|---|---|
-| Server Component fetching in the page | TanStack Query calling the API |
-| Server Action | `features/*/api.ts` — same function names, same arguments, same `ActionResult` return |
-| `revalidatePath` | `refreshData()` invalidates the query cache after a mutation |
-| `loading.tsx` | `<QueryBoundary skeleton={...}>` renders the same skeletons |
-| `error.tsx` | `<QueryBoundary>` for data, `<RootErrorBoundary>` for render errors |
-| `middleware.ts` auth gate | `<DashboardLayout>` and `<RequireOnboarding>` route guards |
-| `next/link` | `react-router-dom` `<Link to>` |
-| `next/navigation` | `hooks/use-navigation.ts` — `usePathname`, `useRouter`, `useSearchParams` with the same shapes |
-| `next/image` | `<img>` |
-| `next/font` | Inter from Google Fonts, preconnected in `index.html` |
-| `metadata` export | `useDocumentTitle()`, same `Page · AI Career OS` template |
-| `dynamic()` for Recharts | `React.lazy` + `Suspense`, same intent |
-| Supabase Realtime | `<RealtimeSync>` — see below |
+## Project structure
 
-Keeping the Server Action names and signatures is why the feature components
-barely changed: `updateTaskStatus`, `recordReview`, `completeOnboarding` and
-the rest still return `{ success: true, data }` or `{ error, fieldErrors }`,
-so every `if ('error' in result)` branch and every inline field message
-still works.
+```text
+src/
+├── components/     # Shared UI, layout, and provider components
+├── features/       # Feature-focused views and client-side helpers
+├── hooks/          # Reusable React hooks
+├── lib/            # API client, session utilities, and constants
+├── routes/         # Route-level pages and guards
+└── types/          # Shared TypeScript types
+```
 
-### Realtime became polling
+## Authentication
 
-The Supabase build held a WebSocket per page and called `router.refresh()`
-on change. There is no equivalent in a REST backend, so `<RealtimeSync>`
-keeps the same promise — what you see reflects what is stored — by
-refetching every 30 seconds while the tab is visible, on window focus, and
-after every mutation. The reads are cheap because the backend serves these
-view models from Redis.
+Sarathi keeps short-lived access tokens in memory. Refresh tokens are handled by
+secure, HttpOnly cookies, so they are never exposed to browser JavaScript. When an
+access token expires, the API client refreshes the session once and retries the
+original request.
 
-This is the one behavioural difference a user could notice: a change made in
-another tab appears within about 30 seconds rather than instantly. If
-instant matters later, the backend can grow an SSE endpoint and
-`<RealtimeSync>` can subscribe to it without touching any page.
+## Contributing
 
-### Where the business rules went
+1. Create a branch from the branch you intend to change.
+2. Make focused changes and run `npm run type-check` and `npm run test`.
+3. Open a pull request with a concise description of the change.
 
-They live in the backend now. The frontend keeps only the presentation-side
-calculations it actually renders with — CS topic completeness for the
-progress bars, DSA solved/unsolved for the problem filter — plus the copy
-and weights the UI labels things with. Everything scored (priority,
-capacity, mastery, readiness, JD matching) is computed server-side and
-arrives already explained, which is what stops the two runtimes drifting
-apart.
+## Contributors
 
-Files such as `features/roles/lib/readiness-calculator.ts` are therefore now
-type and copy contracts rather than implementations, and each says so.
+- [Aryan Prajapati](https://github.com/aryan-prajapati004) — `aryan-prajapati004`
+- [Krishan Kumar](https://github.com/06K07) — `06K07`
+- [Krishna Kumar Modi](https://github.com/KrishnakumarModi) — `KrishnakumarModi`
 
 ---
 
-## Session handling
-
-`lib/token-store.ts` keeps the access token in memory and only the refresh
-token in `localStorage`. `lib/api-client.ts` attaches the access token,
-and on a 401 refreshes once and retries — with a single in-flight refresh
-shared across concurrent requests, so a page that fires eight queries does
-not trigger eight refreshes. The backend rotates and revokes refresh tokens,
-which is what limits the blast radius of the stored copy.
-
----
-
-## Inherited issues
-
-Two things were already true of the Next.js build and were deliberately
-left alone rather than silently changed:
-
-- **`domains.json` colour classes never render.** The seed data names
-  Tailwind classes like `text-violet-500`, but those strings appear only in
-  data, so Tailwind's scanner never generates them. Domain icons inherit
-  the surrounding colour. Fixing it means safelisting those classes — a
-  visible change, so it is your call.
-- **`CardTitle` renders a `<div>`, not a heading.** Three e2e assertions
-  were written expecting `getByRole('heading')` and were adjusted to match
-  the real DOM. Making it an `<h3>` would improve the document outline at
-  the cost of changing rendered markup.
-
-One change was necessary rather than optional: `DomainIcon` now maps icon
-names explicitly instead of doing `import * as Icons from 'lucide-react'`.
-Next rewrites those namespace imports per icon; a plain bundler cannot, and
-the whole ~770 kB library landed in the initial chunk. Rendering is
-identical, including the `BookOpen` fallback.
+Built for deliberate, measurable career growth.
