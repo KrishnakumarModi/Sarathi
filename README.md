@@ -40,7 +40,7 @@ npm run dev
 | `npm run type-check` | TypeScript check only |
 
 
-## How it works
+# How it works
 
 1.Role Selection
 2.Modules
@@ -48,18 +48,16 @@ npm run dev
 4.Completion
 5.Revision
 
-# conclusion
-##
+# Conclusion
 With our Sarathi user can easily find tech related subjects IN one place..
 
 
 
 # TEAM NAME:ACE CODERS
-
 ### Team Members
 
-Aryan Prajapti <managed AI/ML and Testing IN project-->
+# Aryan Prajapti- <managed AI/ML and Testing IN project-->
 
-Krishna Kumar Modi <Implemented backend-frontend and deployment-->
+# Krishna Kumar Modi- <Implemented backend-frontend and deployment-->
 
-Krishan Kumar <UI , frontend and other tasks-->
+# Krishan Kumar- <UI , frontend and other tasks-->
